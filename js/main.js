@@ -19,7 +19,7 @@ for (var i = 0; minePiazzate.length < 16; i++) { // Ciclo FOR fino a raggiungere
     if (!minePiazzate.includes(minaDaPiazzare)) { // se il random generato non esiste nell'array minePiazzate...
         minePiazzate.push(minaDaPiazzare); // allora inseriscilo nell'array minePiazzate
     }
-} console.log(minePiazzate);
+}
 
 for (var i = 0; bandierinePiazzate.length < 84; i++) { // Ciclo FOR fino a raggiungere le 84 bandierine massime piazzabili (caso improbabilissimo)
     var bandierinaDaPiazzare = parseInt(prompt('Scrivi un numero da 1 a 100 e spera di non esplodere!'));
