@@ -19,22 +19,24 @@ for (var i = 0; minePiazzate.length < 16; i++) { // Ciclo FOR fino a raggiungere
     if (!minePiazzate.includes(minaDaPiazzare)) { // se il random generato non esiste nell'array minePiazzate...
         minePiazzate.push(minaDaPiazzare); // allora inseriscilo nell'array minePiazzate
     }
-}
+} console.log(minePiazzate);
 
-for (var i = 0; bandierinePiazzate.length < 85; i++) { // Ciclo FOR fino a raggiungere le 84 bandierine massime piazzabili (caso improbabilissimo)
+for (var i = 0; bandierinePiazzate.length < 84; i++) { // Ciclo FOR fino a raggiungere le 84 bandierine massime piazzabili (caso improbabilissimo)
     var bandierinaDaPiazzare = parseInt(prompt('Scrivi un numero da 1 a 100 e spera di non esplodere!'));
-    if (!isNaN(bandierinaDaPiazzare)) { // se è un numero vai avanti, altrimenti salta alla riga49
-        if ((bandierinaDaPiazzare >= 1) && (bandierinaDaPiazzare <= 100)) { // se è compreso tra 1 e 100 vai avanti, altrimenti salta alla riga46
-            if (!bandierinePiazzate.includes(bandierinaDaPiazzare)) { // se il numero non fa parte dei numeri già provati vai avanti, altrimenti salta alla riga43
-                if (!minePiazzate.includes(bandierinaDaPiazzare)) { // se il numero non fa parte dei numeri dell'array minePiazzate vai avanti, altrimenti salta alla riga32
+    if (!isNaN(bandierinaDaPiazzare)) { // se è un numero vai avanti, altrimenti salta alla riga51
+        if ((bandierinaDaPiazzare >= 1) && (bandierinaDaPiazzare <= 100)) { // se è compreso tra 1 e 100 vai avanti, altrimenti salta alla riga48
+            if (!bandierinePiazzate.includes(bandierinaDaPiazzare)) { // se il numero non fa parte dei numeri già provati vai avanti, altrimenti salta alla riga45
+                if (!minePiazzate.includes(bandierinaDaPiazzare)) { // se il numero non fa parte dei numeri dell'array minePiazzate vai avanti, altrimenti salta alla riga36
                     bandierinePiazzate.push(bandierinaDaPiazzare) // inserisci il numero nell'array bandierinePiazzate
-                    alert('FIUUU! Bandierina Piazzata!');
+                    if (bandierinePiazzate.length === 84){ // se la lunghezza dell'array bandierinePiazzate è il massimo 84 hai vinto il gioco
+                        alert('Sei un mostro! Hai piazzato tutte le bandierine! Vai subito a comprare un gratta e vinci :)');
+                    } else {
+                        alert('FIUUU! Bandierina Piazzata!');
+                    }
                 } else { // rif. IF riga29
                     if (bandierinePiazzate.length === 1) { // caso in cui la lunghezza dell'array bandierinePiazzate è 1
                         alert('|*|* BOOOM *|*| Game Over! Hai piazzato una sola bandierina');
-                    } else if (bandierinePiazzate.length === 84){ // caso in cui la lunghezza dell'array bandierinePiazzate è il massimo 84
-                        alert('Sei un mostro! Hai piazzato tutte le bandierine! Vai subito a comprare un gratta e vinci :)');
-                    } else { // casi in cui la lunghezza dell'array bandierinePiazzate è tra 2 e 83
+                    } else {
                         alert('|*|* BOOOM *|*| Game Over! Hai piazzato ' + bandierinePiazzate.length + ' bandierine.');
                     }
                     alert('Ricarica la pagina per una nuova partita');
