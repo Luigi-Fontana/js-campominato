@@ -38,7 +38,7 @@ for (var i = 0; minePiazzate.length < 16; i++) { // Ciclo FOR fino a raggiungere
     }
 }
 
-if ((sceltaDifficolta.toLowerCase() === 'facile') || (sceltaDifficolta.toLowerCase() === 'normale') || (sceltaDifficolta.toLowerCase() === 'difficile')) { // se il valore della difficoltà inserita dall'utente è uno dei tre vai avanti, altrimenti salta alla riga73
+if ((sceltaDifficolta.toLowerCase() == 'facile') || (sceltaDifficolta.toLowerCase() == 'normale') || (sceltaDifficolta.toLowerCase() == 'difficile')) { // se il valore della difficoltà inserita dall'utente è uno dei tre vai avanti, altrimenti salta alla riga73
     while (bandierinePiazzate.length < bandierineMax) { // Ciclo WHILE fino a raggiungere le bandierine massime piazzabili in base alla difficoltà (caso improbabilissimo)
         var bandierinaDaPiazzare = parseInt(prompt('Scrivi un numero da 1 a ' + rangeMax + ' e spera di non esplodere!'));
         if (!isNaN(bandierinaDaPiazzare)) { // se è un numero vai avanti, altrimenti salta alla riga69
@@ -52,8 +52,10 @@ if ((sceltaDifficolta.toLowerCase() === 'facile') || (sceltaDifficolta.toLowerCa
                             alert('FIUUU! Bandierina Piazzata!');
                         }
                     } else { // rif. IF riga48
-                        if (bandierinePiazzate.length === 1) { // caso in cui la lunghezza dell'array bandierinePiazzate è 1
-                            alert('|*|* BOOOM *|*| Game Over! Hai piazzato una sola bandierina');
+                        if (bandierinePiazzate.length === 0) { // caso in cui la lunghezza dell'array bandierinePiazzate è 0
+                            alert('|*|* BOOOM *|*| Game Over! Non hai piazzato nemmeno una bandierina.');
+                        } else if (bandierinePiazzate.length === 1) { // caso in cui la lunghezza dell'array bandierinePiazzate è 1
+                            alert('|*|* BOOOM *|*| Game Over! Hai piazzato una sola bandierina.');
                         } else {
                             alert('|*|* BOOOM *|*| Game Over! Hai piazzato ' + bandierinePiazzate.length + ' bandierine.');
                         }
