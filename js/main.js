@@ -9,71 +9,92 @@
     Con difficoltà 0=> tra 1 e 100, con difficoltà 1 =>  tra 1 e 80, con difficoltà 2=> tra 1 e 50
 */
 
+// 1. Definisco le variabili che cambieranno in base alla difficoltà selezionata
+// 2. Creo la funzione che adatterà le variabili create alla scelta dell'utente
+// 3. Genero 16 numeri random diversi con una funzione e li inserisco in un array
+// 4. Richiamo questa funziona per creare la variabile in cui saranno piazzate le bombe
+// 5. Creo un array vuoto dove saranno piazzate le bandierine
+// 6. Inizio il ciclo e chiedo all'utente di inserire un numero
+// 7. Inizio i controlli su quell'inserimento
+//      - Deve essere un numero
+//      - Deve essere compreso tra 1 e il valore determinato dalla difficoltà
+// 8. Inizio i controlli per capire cosa fare con questo numero inserimento
+//      - Il numero non deve essere già stato scritto
+//      - Se il numero non è una bomba lo pusho nell'array
+//      - Se il numero è una bomba il ciclo finisce
+//      - Stampare messaggio di numero bandierine piazzate
+
 // Riempirò questo codice di commenti :P
 
-var minePiazzate = [] // array vuoto dove verranno pushate le mine, i numeri estratti random dal pc
+var dimensioneCampo = difficolta(); // scelta con funzione in base alla difficoltà
+var totaleMine = 16;
+var bandierineMax = dimensioneCampo - totaleMine; // bandierine massime piazzabili
+
+var minePiazzate = piazzaLeMine(dimensioneCampo, totaleMine); // array dove verranno piazzate le mine richiamando la funzione di piazzamento randomico
 var bandierinePiazzate = []; // array vuoto dove verranno pushate le bandierine, i numeri inseriti dall'utente
 
-var sceltaDifficolta = prompt('Scegli la difficoltà tra facile, normale o difficile');
-
-switch (sceltaDifficolta.toLowerCase()) { // inizio switch per settare i paramentri di difficoltà in seguito
-    case 'facile': // nel caso facile hai a disposizione i numeri da 1 a 100 e quindi 84 bandierine massime piazzabili
-        var rangeMax = 100;
-        var bandierineMax = 84;
-        break;
-    case 'normale': // nel caso normale hai a disposizione i numeri da 1 a 80 e quindi 64 bandierine massime piazzabili
-        var rangeMax = 80;
-        var bandierineMax = 64;
-        break;
-    case 'difficile': // nel caso difficile hai a disposizione i numeri da 1 a 50 e quindi 34 bandierine massime piazzabili
-        var rangeMax = 50;
-        var bandierineMax = 34;
-        break;
-}
-
-for (var i = 0; minePiazzate.length < 16; i++) { // Ciclo FOR fino a raggiungere 16 elementi nell'array minePiazzate
-    var minaDaPiazzare = generaRandomMinMax(1, rangeMax); // Generazione mina, numero random tramite funzione in base alla difficoltà selezionata
-    if (!minePiazzate.includes(minaDaPiazzare)) { // se il random generato non esiste nell'array minePiazzate...
-        minePiazzate.push(minaDaPiazzare); // allora inseriscilo nell'array minePiazzate
+var kaboom = false; // variabile sentinella che servirà in caso di arresto manuale del ciclo quando troviamo una bomba
+while ((bandierinePiazzate.length < bandierineMax) && (kaboom === false)) { // Ciclo WHILE fino a raggiungere le bandierine massime piazzabili in base alla difficoltà (caso improbabilissimo) o al raggiungimento di una bomba
+    var bandierinaDaPiazzare = parseInt(prompt('Scrivi un numero da 1 a ' + dimensioneCampo + ' e spera di non esplodere!'));
+    if (!isNaN(bandierinaDaPiazzare)) { // se è un numero vai avanti, altrimenti salta alla riga66
+        if ((bandierinaDaPiazzare >= 1) && (bandierinaDaPiazzare <= dimensioneCampo)) { // se è compreso tra 1 e il valore massimo vai avanti, altrimenti salta alla riga63
+            if (!bandierinePiazzate.includes(bandierinaDaPiazzare)) { // se il numero non fa parte dei numeri già provati vai avanti, altrimenti salta alla riga60
+                if (!minePiazzate.includes(bandierinaDaPiazzare)) { // se il numero non fa parte dei numeri dell'array minePiazzate vai avanti, altrimenti salta alla riga49
+                    bandierinePiazzate.push(bandierinaDaPiazzare) // inserisci il numero nell'array bandierinePiazzate
+                    if (bandierinePiazzate.length === bandierineMax){ // a questo punto se la lunghezza dell'array bandierinePiazzate è il massimo hai vinto il gioco
+                        alert('Sei un mostro! Hai piazzato tutte le bandierine! Vai subito a comprare un gratta e vinci :)'); // qui non c'è bisogno della variabile sentinella perchè al prossimo giro non rispetteremo le condizioni del ciclo
+                    } else {
+                        alert('FIUUU! Bandierina Piazzata!');
+                    }
+                } else { // rif. IF riga42
+                    if (bandierinePiazzate.length === 0) { // caso in cui la lunghezza dell'array bandierinePiazzate è 0
+                        alert('|*|* BOOOM *|*| Game Over! Non hai piazzato nemmeno una bandierina.');
+                    } else if (bandierinePiazzate.length === 1) { // caso in cui la lunghezza dell'array bandierinePiazzate è 1
+                        alert('|*|* BOOOM *|*| Game Over! Hai piazzato una sola bandierina.');
+                    } else {
+                        alert('|*|* BOOOM *|*| Game Over! Hai piazzato ' + bandierinePiazzate.length + ' bandierine.');
+                    }
+                    alert('Ricarica la pagina per una nuova partita');
+                    kaboom = true; // abbiamo trovato una bomba, settiamo la variabile sentinella in modo che il ciclo termini
+                }
+            } else { // rif. IF riga41
+                alert('Hai già piazzato una bandierina qui furbetto');
+            }
+        } else { // rif. IF riga40
+            alert('Devi inserire un numero da 1 a ' + dimensioneCampo);
+        }
+    } else { // rif. IF riga39
+        alert('Perfavore inserisci un numero');
     }
 }
 
-if ((sceltaDifficolta.toLowerCase() == 'facile') || (sceltaDifficolta.toLowerCase() == 'normale') || (sceltaDifficolta.toLowerCase() == 'difficile')) { // se il valore della difficoltà inserita dall'utente è uno dei tre vai avanti, altrimenti salta alla riga73
-    while (bandierinePiazzate.length < bandierineMax) { // Ciclo WHILE fino a raggiungere le bandierine massime piazzabili in base alla difficoltà (caso improbabilissimo)
-        var bandierinaDaPiazzare = parseInt(prompt('Scrivi un numero da 1 a ' + rangeMax + ' e spera di non esplodere!'));
-        if (!isNaN(bandierinaDaPiazzare)) { // se è un numero vai avanti, altrimenti salta alla riga69
-            if ((bandierinaDaPiazzare >= 1) && (bandierinaDaPiazzare <= rangeMax)) { // se è compreso tra 1 e il valore massimo vai avanti, altrimenti salta alla riga66
-                if (!bandierinePiazzate.includes(bandierinaDaPiazzare)) { // se il numero non fa parte dei numeri già provati vai avanti, altrimenti salta alla riga63
-                    if (!minePiazzate.includes(bandierinaDaPiazzare)) { // se il numero non fa parte dei numeri dell'array minePiazzate vai avanti, altrimenti salta alla riga54
-                        bandierinePiazzate.push(bandierinaDaPiazzare) // inserisci il numero nell'array bandierinePiazzate
-                        if (bandierinePiazzate.length === rangeMax){ // a questo punto se la lunghezza dell'array bandierinePiazzate è il massimo hai vinto il gioco
-                            alert('Sei un mostro! Hai piazzato tutte le bandierine! Vai subito a comprare un gratta e vinci :)'); // nel caso sei qui non c'è bisogno di break perchè dal prossimo giro non rispetterai la condizione del ciclo FOR
-                        } else {
-                            alert('FIUUU! Bandierina Piazzata!');
-                        }
-                    } else { // rif. IF riga48
-                        if (bandierinePiazzate.length === 0) { // caso in cui la lunghezza dell'array bandierinePiazzate è 0
-                            alert('|*|* BOOOM *|*| Game Over! Non hai piazzato nemmeno una bandierina.');
-                        } else if (bandierinePiazzate.length === 1) { // caso in cui la lunghezza dell'array bandierinePiazzate è 1
-                            alert('|*|* BOOOM *|*| Game Over! Hai piazzato una sola bandierina.');
-                        } else {
-                            alert('|*|* BOOOM *|*| Game Over! Hai piazzato ' + bandierinePiazzate.length + ' bandierine.');
-                        }
-                        alert('Ricarica la pagina per una nuova partita');
-                        break; // una volta arrivati qui il ciclo va bloccato altrimenti stai barando :P
-                    }
-                } else { // rif. IF riga46
-                    alert('Hai già piazzato una bandierina qui furbetto');
-                }
-            } else { // rif. IF riga45
-                alert('Devi inserire un numero da 1 a ' + rangeMax);
-            }
-        } else { // rif. IF riga44
-            alert('Perfavore inserisci un numero');
+function difficolta() { // Funzione che imposta la variabile della dimensione del campo in base alla difficoltà scelta
+    var scelta = parseInt(prompt('Inserisci la difficoltà tra 1, 2 o 3. Livello di default 1'));
+    switch (scelta) {
+        case 1:
+            var dimCampo = 100;
+            break;
+        case 2:
+            var dimCampo = 80;
+            break;
+        case 3:
+            var dimCampo = 50;
+            break;
+        default:
+            var dimCampo = 100;
+    }
+    return dimCampo;
+}
+
+function piazzaLeMine(dimCampo, totMine) { // Funzione che crea un array con numeri random e lunghezza dati in ingresso
+    var mappaMine = [];
+    while (mappaMine.length < totMine) {
+        var minaDaPiazzare = generaRandomMinMax(1, dimCampo);
+        if (!mappaMine.includes(minaDaPiazzare)) {
+            mappaMine.push(minaDaPiazzare);
         }
     }
-} else { // rif. IF riga41
-    alert('Non hai inserito la difficolà in lettere, ricarica la pagina se vuoi provare ancora!!');
+    return mappaMine;
 }
 
 function generaRandomMinMax(min, max) { // funzione che genera un numero random tra due valori dati in ingresso MIN e MAX, estremi inclusi
