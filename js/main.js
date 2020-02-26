@@ -36,22 +36,31 @@ var bandierinePiazzate = []; // array vuoto dove verranno pushate le bandierine,
 var kaboom = false; // variabile sentinella che servirà in caso di arresto manuale del ciclo quando troviamo una bomba
 while ((bandierinePiazzate.length < bandierineMax) && (kaboom === false)) { // Ciclo WHILE fino a raggiungere le bandierine massime piazzabili in base alla difficoltà (caso improbabilissimo) o al raggiungimento di una bomba
     var bandierinaDaPiazzare = parseInt(prompt('Scrivi un numero da 1 a ' + dimensioneCampo + ' e spera di non esplodere!'));
-    if (!isNaN(bandierinaDaPiazzare)) { // se è un numero vai avanti, altrimenti salta alla riga66
-        if ((bandierinaDaPiazzare >= 1) && (bandierinaDaPiazzare <= dimensioneCampo)) { // se è compreso tra 1 e il valore massimo vai avanti, altrimenti salta alla riga63
-            if (!bandierinePiazzate.includes(bandierinaDaPiazzare)) { // se il numero non fa parte dei numeri già provati vai avanti, altrimenti salta alla riga60
-                if (!minePiazzate.includes(bandierinaDaPiazzare)) { // se il numero non fa parte dei numeri dell'array minePiazzate vai avanti, altrimenti salta alla riga49
+    if (!isNaN(bandierinaDaPiazzare)) { // se è un numero vai avanti, altrimenti salta alla riga75
+        if ((bandierinaDaPiazzare >= 1) && (bandierinaDaPiazzare <= dimensioneCampo)) { // se è compreso tra 1 e il valore massimo vai avanti, altrimenti salta alla riga72
+            if (!bandierinePiazzate.includes(bandierinaDaPiazzare)) { // se il numero non fa parte dei numeri già provati vai avanti, altrimenti salta alla riga69
+                if (!minePiazzate.includes(bandierinaDaPiazzare)) { // se il numero non fa parte dei numeri dell'array minePiazzate vai avanti, altrimenti salta alla riga52
                     bandierinePiazzate.push(bandierinaDaPiazzare) // inserisci il numero nell'array bandierinePiazzate
                     if (bandierinePiazzate.length === bandierineMax){ // a questo punto se la lunghezza dell'array bandierinePiazzate è il massimo hai vinto il gioco
+                        document.getElementById('cell' + bandierinaDaPiazzare).innerHTML = 'O';
+                        document.getElementById('cell' + bandierinaDaPiazzare).setAttribute('class', 'cell green');
                         alert('Sei un mostro! Hai piazzato tutte le bandierine! Vai subito a comprare un gratta e vinci :)'); // qui non c'è bisogno della variabile sentinella perchè al prossimo giro non rispetteremo le condizioni del ciclo
                     } else {
-                        alert('FIUUU! Bandierina Piazzata!');
+                        document.getElementById('cell' + bandierinaDaPiazzare).innerHTML = 'O';
+                        document.getElementById('cell' + bandierinaDaPiazzare).setAttribute('class', 'cell green');
                     }
                 } else { // rif. IF riga42
                     if (bandierinePiazzate.length === 0) { // caso in cui la lunghezza dell'array bandierinePiazzate è 0
+                        document.getElementById('cell' + bandierinaDaPiazzare).innerHTML = 'X';
+                        document.getElementById('cell' + bandierinaDaPiazzare).setAttribute('class', 'cell red');
                         alert('|*|* BOOOM *|*| Game Over! Non hai piazzato nemmeno una bandierina.');
                     } else if (bandierinePiazzate.length === 1) { // caso in cui la lunghezza dell'array bandierinePiazzate è 1
+                        document.getElementById('cell' + bandierinaDaPiazzare).innerHTML = 'X';
+                        document.getElementById('cell' + bandierinaDaPiazzare).setAttribute('class', 'cell red');
                         alert('|*|* BOOOM *|*| Game Over! Hai piazzato una sola bandierina.');
                     } else {
+                        document.getElementById('cell' + bandierinaDaPiazzare).innerHTML = 'X';
+                        document.getElementById('cell' + bandierinaDaPiazzare).setAttribute('class', 'cell red');
                         alert('|*|* BOOOM *|*| Game Over! Hai piazzato ' + bandierinePiazzate.length + ' bandierine.');
                     }
                     alert('Ricarica la pagina per una nuova partita');
