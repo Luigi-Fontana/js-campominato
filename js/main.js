@@ -39,7 +39,7 @@ for (var i = 0; minePiazzate.length < 16; i++) { // Ciclo FOR fino a raggiungere
 }
 
 if ((sceltaDifficolta.toLowerCase() === 'facile') || (sceltaDifficolta.toLowerCase() === 'normale') || (sceltaDifficolta.toLowerCase() === 'difficile')) { // se il valore della difficoltà inserita dall'utente è uno dei tre vai avanti, altrimenti salta alla riga73
-    for (var i = 0; bandierinePiazzate.length < bandierineMax; i++) { // Ciclo FOR fino a raggiungere le bandierine massime piazzabili in base alla difficoltà (caso improbabilissimo)
+    while (bandierinePiazzate.length < bandierineMax) { // Ciclo WHILE fino a raggiungere le bandierine massime piazzabili in base alla difficoltà (caso improbabilissimo)
         var bandierinaDaPiazzare = parseInt(prompt('Scrivi un numero da 1 a ' + rangeMax + ' e spera di non esplodere!'));
         if (!isNaN(bandierinaDaPiazzare)) { // se è un numero vai avanti, altrimenti salta alla riga69
             if ((bandierinaDaPiazzare >= 1) && (bandierinaDaPiazzare <= rangeMax)) { // se è compreso tra 1 e il valore massimo vai avanti, altrimenti salta alla riga66
